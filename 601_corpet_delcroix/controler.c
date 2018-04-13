@@ -109,7 +109,6 @@ int main(int argc, char *argv[]) {
 	wattroff(title_window, A_BOLD);
 
     /* Affichage du manager */
-
     wattron(manager_window, A_BOLD);
 	for(i=1; i<=maximum_objects; i++) {
         /* Numerotation de l'objet */
@@ -224,6 +223,7 @@ int main(int argc, char *argv[]) {
         wattron(manager_window, A_BOLD);
         wattroff(manager_window, COLOR_PAIR(5));
 	}
+    wattroff(manager_window, A_BOLD);
 
 	/* Mise a jour de l'affichage */
 	wrefresh(main_window);
