@@ -111,119 +111,118 @@ int main(int argc, char *argv[]) {
     /* Affichage du manager */
 
     wattron(manager_window, A_BOLD);
-	for(i = 1; i <= maximum_objects; i++) {
+	for(i=1; i<=maximum_objects; i++) {
+        /* Numerotation de l'objet */
+        mvwprintw(manager_window, i, cursor, "objet %d : ", i);
+        cursor+=10;
 
-		/* Numerotation de l'objet */
-		mvwprintw(manager_window, i, cursor, "objet %d : ", i);
-		cursor+=10;
+        /* Coordonnees x */
+        mvwprintw(manager_window, i, cursor, "x");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Coordonnees x */
-		mvwprintw(manager_window, i, cursor, "x");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Coordonnees y */
+        mvwprintw(manager_window, i, cursor, "y");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Coordonnees y */
-		mvwprintw(manager_window, i, cursor, "y");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Coordonnees z */
+        mvwprintw(manager_window, i, cursor, "z");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Coordonnees z */
-		mvwprintw(manager_window, i, cursor, "z");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Rayon */
+        mvwprintw(manager_window, i, cursor, "r");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Rayon */
-		mvwprintw(manager_window, i, cursor, "r");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Couleur */
+        srand(time(NULL)+i);
+        tmp=(rand()%4)+1;
+        mvwprintw(manager_window, i, cursor, "c");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(tmp));
+        mvwprintw(manager_window, i, cursor, "   ");
+        cursor+=5;
+        wattroff(manager_window, COLOR_PAIR(tmp));
 
-		/* Couleur */
-		srand(time(NULL)+i);
-		tmp=(rand()%4)+1;
-		mvwprintw(manager_window, i, cursor, "c");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(tmp));
-		mvwprintw(manager_window, i, cursor, "   ");
-		cursor+=5;
-		wattroff(manager_window, COLOR_PAIR(tmp));
+        /* Direction x */
+        mvwprintw(manager_window, i, cursor, "x");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Direction x */
-		mvwprintw(manager_window, i, cursor, "x");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-    	wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Direction y */
+        mvwprintw(manager_window, i, cursor, "y");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Direction y */
-		mvwprintw(manager_window, i, cursor, "y");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Direction z */
+        mvwprintw(manager_window, i, cursor, "z");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Direction z */
-		mvwprintw(manager_window, i, cursor, "z");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Vitesse */
+        mvwprintw(manager_window, i, cursor, "v");
+        cursor+=2;
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " 0 ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Vitesse */
-		mvwprintw(manager_window, i, cursor, "v");
-		cursor+=2;
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " 0 ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Creation et suppression x */
+        srand(time(NULL)+tmp);
+        tmp=(rand()%2)+1;
+        wattron(manager_window, COLOR_PAIR(tmp));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, "   ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(tmp));
 
-    	/* Creation et suppression x */
-		srand(time(NULL) + tmp);
-		tmp = (rand() % 2) + 1;
-		wattron(manager_window, COLOR_PAIR(tmp));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, "   ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(tmp));
-
-		/* Pause et reprise x */
-		wattron(manager_window, COLOR_PAIR(5));
-		wattroff(manager_window, A_BOLD);
-		mvwprintw(manager_window, i, cursor, " || ");
-		cursor+=5;
-		wattron(manager_window, A_BOLD);
-		wattroff(manager_window, COLOR_PAIR(5));
+        /* Pause et reprise x */
+        wattron(manager_window, COLOR_PAIR(5));
+        wattroff(manager_window, A_BOLD);
+        mvwprintw(manager_window, i, cursor, " || ");
+        cursor+=5;
+        wattron(manager_window, A_BOLD);
+        wattroff(manager_window, COLOR_PAIR(5));
 	}
 
 	/* Mise a jour de l'affichage */
