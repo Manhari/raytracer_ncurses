@@ -1,22 +1,22 @@
 /* Definitions */
 
-#define POSX                4 /* */
-#define POSY                2 /* */
-#define WIDTH_MAX           90 /* */
-#define WIDTH_MIN           30 /* */
+#define POSX                4   /* */
+#define POSY                2   /* */
+#define WIDTH_MAX           90  /* */
+#define WIDTH_MIN           30  /* */
 
 #define MAX(A,B) ((A>B)?A:B)
 
 /* Include des bibliotheques natives utilises */
-#include <math.h>       /* */
-#include <ncurses.h>    /* */
-#include <signal.h>     /* */
-#include <stdio.h>      /* */
-#include <stdlib.h>     /* */
-#include <time.h>       /* */
+#include <math.h>               /* */
+#include <ncurses.h>            /* */
+#include <signal.h>             /* */
+#include <stdio.h>              /* */
+#include <stdlib.h>             /* */
+#include <time.h>               /* */
 
 /* Include de nos fichiers d'en-tete */
-#include "display.h"    /* Pour les fonctionnalites liees a ncurses */
+#include "display.h"            /* Pour les fonctionnalites liees a ncurses */
 
 /* Variables globales */
 
