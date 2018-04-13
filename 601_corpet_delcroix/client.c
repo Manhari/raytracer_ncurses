@@ -39,7 +39,9 @@ void handler(int code) {
 
 void show_command_synthax(char *program_name) {
     fprintf(stderr,"%s [ADDRESS] [TCP] [UDP]\n", program_name);
-    fprintf(stderr,"\tWhere :\n\t[ADDRESS] is the visualizer IPv4 address\n\t[TCP] is the visualizer TCP port\n\t[UDP] is the visualizer UDP port\n");
+    fprintf(stderr,"\tWhere :\n\t[ADDRESS] is the visualizer IPv4 address
+					\n\t[TCP] is the visualizer TCP port
+					\n\t[UDP] is the visualizer UDP port\n");
 }
 
 /* Programme principal du client */

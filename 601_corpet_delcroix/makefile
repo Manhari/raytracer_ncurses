@@ -2,8 +2,8 @@
 # CONFIGURATION GENERALE
 #
 
-EXEC = client
-OBJETS = display.o socket.o
+EXEC = controler
+OBJETS = display.o
 NOM_PROJET = INFO0601
 
 #
@@ -24,8 +24,8 @@ OBJETS_O = $(OBJETS) $(EXEC_O)
 #
 
 CC = gcc
-CCFLAGS = -Wall -O3 -Werror -ansi -pedantic -lncurses
-CCLIBS = 
+CCFLAGS = -Wall -O3 -Werror -ansi -pedantic
+CCLIBS = -lncurses
 
 #
 # REGLES
@@ -81,5 +81,4 @@ archive: clean
 
 # DEPENDANCES
 display.o: display.c display.h
-socket.o: socket.c socket.h
-client.o: client.c client.h display.h socket.h
+controler.o: controler.c display.h

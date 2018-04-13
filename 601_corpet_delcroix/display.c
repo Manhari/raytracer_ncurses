@@ -33,7 +33,9 @@ void ncurses_colors() {
 	/* Definition de la palette */
 	init_pair(1, COLOR_RED, COLOR_RED);
 	init_pair(2, COLOR_GREEN, COLOR_GREEN);
-	init_pair(3, COLOR_BLACK, COLOR_WHITE);
+	init_pair(3, COLOR_BLUE, COLOR_BLUE);	
+	init_pair(4, COLOR_YELLOW, COLOR_YELLOW);
+	init_pair(5, COLOR_BLACK, COLOR_WHITE);
 }
 
 /* Activation de la souris */
