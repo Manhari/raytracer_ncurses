@@ -1,64 +1,61 @@
 /* Definitions */
 
-/* Inclusion des bibliothèques natives utilisées */
-#include <ncurses.h>	/* */
+#define POSX                4 /* */
+#define POSY                2 /* */
+#define WIDTH_MAX           90 /* */
+#define WIDTH_MIN           30 /* */
+
+#define MAX(A,B) ((A>B)?A:B)
+
+/* Include des bibliotheques natives utilises */
+#include <math.h>       /* */
+#include <ncurses.h>    /* */
 #include <signal.h>     /* */
 #include <stdio.h>      /* */
 #include <stdlib.h>     /* */
-#include <time.h>		/* */
+#include <time.h>       /* */
 
-/* Inclusion de nos fichiers d'en-tête */
-#include "display.h"    /* Pour les fonctionnalités liées a ncurses */
-
-/* Définition des constantes */
-#define POSX    4
-#define POSY    2
-#define X_COORD	13
-#define Y_COORD	13
-#define Z_COORD	13
-#define RADIUS	13
-#define COLOR	13
-#define X_DIR	13
-#define Y_DIR	13
-#define Z_DIR	13
-#define SPEED	13
-#define CREATE	13
-#define PAUSE	13
+/* Include de nos fichiers d'en-tete */
+#include "display.h"    /* Pour les fonctionnalites liees a ncurses */
 
 /* Variables globales */
 
-/* Fonctions propres au contrôleur */
+WINDOW *main_window=NULL, *title_window=NULL, *manager_window=NULL;
+int height_main, height_manager=5, height_title=3;
+
+/* Fonctions propres au controleur */
 
 void handler(int code) {
+    if(code==SIGINT || code==SIGSEGV) {
+        /* Affichage du code du signal reçu*/
+        printf("SIGNAL %i reçu\n", code);
+
+        /* Destruction des fenetres */
+        delwin(manager_window);
+        delwin(title_window);
+        delwin(main_window);
+
+        /* Arret de ncurses */
+        ncurses_stopper();
+
+        exit(EXIT_SUCCESS);
+    } else {
+        exit(EXIT_FAILURE);
+    }
 }
 
 void show_command_synthax(char *program_name) {
     fprintf(stderr,"%s [NOMBRE_D_OBJETS]\n", program_name);
-<<<<<<< HEAD
-    fprintf(stderr,"\tWhere :\n\t[NOMBRE_D_OBJETS] is the number of objects\n");
-=======
     fprintf(stderr,"\tWhere :\n\t[NOMBRE_D_OBJETS] is the maximum number of object\n");
->>>>>>> 08e785e0a429fb8cd7e59ee8f971e15c5d95a8d8
 }
 
 /* Programme principal du client */
 int main(int argc, char *argv[]) {
-<<<<<<< HEAD
-	/* Variables */
-	WINDOW* window;
-	int nObjects = 0, ch, i;
+    /* Declaration des variables */
+	/*struct sigaction action;*/
+    int cursor=1, i=0, maximum_objects=0, tmp=1, width=0;
+    char c;
 
-    /* Vérification des arguments de la commande ./client */
-    if(argc < 2) {
-        fprintf(stderr,"Too few arguments to execute %s\n", argv[0]);
-        show_command_synthax(argv[0]);
-        exit(EXIT_FAILURE);
-    } else if (argc > 2) {
-        fprintf(stderr,"Too many arguments to execute %s\n", argv[0]);
-        show_command_synthax(argv[0]);
-        exit(EXIT_FAILURE);
-    } else if (atoi(argv[1]) < 0) {
-=======
     /* Verification des donnees passees en argument de la commande ./client */
     if(argc<2) {
         fprintf(stderr,"Too few argument to execute %s\n", argv[0]);
@@ -69,151 +66,173 @@ int main(int argc, char *argv[]) {
         show_command_synthax(argv[0]);
         exit(EXIT_FAILURE);
     } else if (atoi(argv[1])==0) {
->>>>>>> 08e785e0a429fb8cd7e59ee8f971e15c5d95a8d8
         fprintf(stderr,"Invalid argument : %s\n", argv[1]);
         show_command_synthax(argv[0]);
         exit(EXIT_FAILURE);
     }
 
-	/* Récupération des arguments */
-	nObjects = atoi(argv[1]);
+    /* Mise en place du handler */
+    /*if((sigaction(SIGINT, &action, NULL)==-1) || (sigaction(SIGSEGV, &action, NULL)==-1)) {
+        perror("sigaction(SIGINT, &action, NULL) || sigaction(SIGSEGV, &action, NULL)");
+        exit(EXIT_FAILURE);
+    }*/
 
-	/* Démarrage ncurses */
+    /* Initialisation des variables */
+    /*current_object=0;*/
+    maximum_objects=atoi(argv[1]);
+    height_manager+=maximum_objects;
+    height_main=height_manager+height_title;
+
+    /* Initialisation de ncurses */
 	ncurses_initializer();
 	ncurses_colors();
-	ncurses_mouse();
+    ncurses_mouse();
 
-	/* Initialisation des fenêtres */
-	window = newwin(LINES - 2*POSY - 1, COLS - 2*POSX - 1, POSY, POSX);
-	box(window, 0, 0);
-	wattron(window, A_BOLD);
-	for(i = 1; i <= nObjects; i++) {
-		int cursor = 1, tmp = 1;
+    /* Calcul de la largeur de l'affichage */
+	width=MAX(COLS-2*POSX, WIDTH_MIN);
 
-		/* Numérotation de l'objet */
-		mvwprintw(window, i, cursor, "objet %d : ", i);
-		cursor += 10;
+    /* Initialisation des fenetres */
+    main_window=newwin(height_main, width, POSY, POSX);
+	manager_window=subwin(main_window, height_manager, width-4, POSY+1+height_title, POSX+2);
+	title_window=subwin(main_window, height_title, width-4, POSY+1, POSX+2);
 
-		/* Coordonnées x*/
-		mvwprintw(window, i, cursor, "x");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+    /* Création des bordures */
+	box(main_window, 0, 0);
+	box(manager_window, 0, 0);
+	box(title_window, 0, 0);
 
-		/* Coordonnées y*/
-		mvwprintw(window, i, cursor, "y");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+    /* Affichage du titre */
+	wattron(title_window, A_BOLD);
+	mvwaddch(title_window, 1, width/2-8, ACS_RARROW);
+	mvwprintw(title_window, 1, width/2-5, "CONTROLER");
+	mvwaddch(title_window, 1, width/2+6, ACS_LARROW);
+	wattroff(title_window, A_BOLD);
 
-		/* Coordonnées z*/
-		mvwprintw(window, i, cursor, "z");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+    /* Affichage du manager */
 
-		/* Rayon*/
-		mvwprintw(window, i, cursor, "r");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+    wattron(manager_window, A_BOLD);
+	for(i = 1; i <= maximum_objects; i++) {
 
-		/* Couleur*/
-		srand(time(NULL) + i);
-		tmp = (rand() % 4) + 1;
-		mvwprintw(window, i, cursor, "c");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(tmp));
-		mvwprintw(window, i, cursor, "   ");
-		cursor += 5;
-		wattroff(window, COLOR_PAIR(tmp));
+		/* Numerotation de l'objet */
+		mvwprintw(manager_window, i, cursor, "objet %d : ", i);
+		cursor+=10;
 
-		/* Direction x*/
-		mvwprintw(window, i, cursor, "x");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+		/* Coordonnees x */
+		mvwprintw(manager_window, i, cursor, "x");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Direction y*/
-		mvwprintw(window, i, cursor, "y");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+		/* Coordonnees y */
+		mvwprintw(manager_window, i, cursor, "y");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Direction z*/
-		mvwprintw(window, i, cursor, "z");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+		/* Coordonnees z */
+		mvwprintw(manager_window, i, cursor, "z");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Vitesse*/
-		mvwprintw(window, i, cursor, "v");
-		cursor += 2;
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " 0 ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+		/* Rayon */
+		mvwprintw(manager_window, i, cursor, "r");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
 
-		/* Création et suppression x*/
+		/* Couleur */
+		srand(time(NULL)+i);
+		tmp=(rand()%4)+1;
+		mvwprintw(manager_window, i, cursor, "c");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(tmp));
+		mvwprintw(manager_window, i, cursor, "   ");
+		cursor+=5;
+		wattroff(manager_window, COLOR_PAIR(tmp));
+
+		/* Direction x */
+		mvwprintw(manager_window, i, cursor, "x");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+    	wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
+
+		/* Direction y */
+		mvwprintw(manager_window, i, cursor, "y");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
+
+		/* Direction z */
+		mvwprintw(manager_window, i, cursor, "z");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
+
+		/* Vitesse */
+		mvwprintw(manager_window, i, cursor, "v");
+		cursor+=2;
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " 0 ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
+
+    	/* Creation et suppression x */
 		srand(time(NULL) + tmp);
 		tmp = (rand() % 2) + 1;
-		wattron(window, COLOR_PAIR(tmp));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, "   ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(tmp));
+		wattron(manager_window, COLOR_PAIR(tmp));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, "   ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(tmp));
 
-		/* Pause et reprise x*/
-		wattron(window, COLOR_PAIR(5));
-		wattroff(window, A_BOLD);
-		mvwprintw(window, i, cursor, " || ");
-		cursor += 5;
-		wattron(window, A_BOLD);
-		wattroff(window, COLOR_PAIR(5));
+		/* Pause et reprise x */
+		wattron(manager_window, COLOR_PAIR(5));
+		wattroff(manager_window, A_BOLD);
+		mvwprintw(manager_window, i, cursor, " || ");
+		cursor+=5;
+		wattron(manager_window, A_BOLD);
+		wattroff(manager_window, COLOR_PAIR(5));
 	}
 
-	/* Rafraichissement de la fenêtre */
-	wrefresh(window);
+	/* Mise a jour de l'affichage */
+	wrefresh(main_window);
+	wrefresh(manager_window);
+	wrefresh(title_window);
 
-	/* Maintien du programme */
-	while((ch = getch()) != KEY_F(2)) { }
-
-	/* Suppression des fenêtres */
-	delwin(window);
-
-	/* Arrêt de ncurses */
-	ncurses_stopper();
+    /* Maintien du programme */
+    while((c=getch())!=KEY_F(2)) {}
 
     return EXIT_SUCCESS;
 }
