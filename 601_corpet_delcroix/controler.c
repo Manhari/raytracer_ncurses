@@ -34,11 +34,16 @@ void handler(int code) {
 
 void show_command_synthax(char *program_name) {
     fprintf(stderr,"%s [NOMBRE_D_OBJETS]\n", program_name);
+<<<<<<< HEAD
     fprintf(stderr,"\tWhere :\n\t[NOMBRE_D_OBJETS] is the number of objects\n");
+=======
+    fprintf(stderr,"\tWhere :\n\t[NOMBRE_D_OBJETS] is the maximum number of object\n");
+>>>>>>> 08e785e0a429fb8cd7e59ee8f971e15c5d95a8d8
 }
 
 /* Programme principal du client */
 int main(int argc, char *argv[]) {
+<<<<<<< HEAD
 	/* Variables */
 	WINDOW* window;
 	int nObjects = 0, ch, i;
@@ -53,6 +58,18 @@ int main(int argc, char *argv[]) {
         show_command_synthax(argv[0]);
         exit(EXIT_FAILURE);
     } else if (atoi(argv[1]) < 0) {
+=======
+    /* Verification des donnees passees en argument de la commande ./client */
+    if(argc<2) {
+        fprintf(stderr,"Too few argument to execute %s\n", argv[0]);
+        show_command_synthax(argv[0]);
+        exit(EXIT_FAILURE);
+    } else if (argc>2) {
+        fprintf(stderr,"Too many argument to execute %s\n", argv[0]);
+        show_command_synthax(argv[0]);
+        exit(EXIT_FAILURE);
+    } else if (atoi(argv[1])==0) {
+>>>>>>> 08e785e0a429fb8cd7e59ee8f971e15c5d95a8d8
         fprintf(stderr,"Invalid argument : %s\n", argv[1]);
         show_command_synthax(argv[0]);
         exit(EXIT_FAILURE);
