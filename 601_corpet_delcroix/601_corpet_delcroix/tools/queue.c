@@ -24,7 +24,7 @@ void delete_queue(int queue_key) {
 
 int get_queue(int queue_key) {
     int queue_identifier;
-    if((queue_identifier=msgget((key_t)queue_key, S_IRUSR | S_IWUSR | IPC_EXCL))==-1) {
+    if((queue_identifier=msgget((key_t)queue_key, 0))==-1) {
         if(errno==ENOENT) {
             perror("File inexistante ");
         } else {

@@ -7,5 +7,6 @@ void ncurses_stopper();
 void ncurses_colors();
 void ncurses_mouse();
 int mouse_getpos(int *x, int *y, int *bouton);
+int ncurses_checksize(int height, int width);
 
 #endif

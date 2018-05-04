@@ -66,3 +66,18 @@ int mouse_getpos(int *x, int *y, int *bouton) {
   }
   return resultat;
 }
+
+/**
+ * Check the sizes of the terminal.
+ * @param height the height needed
+ * @param width the width needed
+ * @return TRUE if the sizes are OK else returns FALSE
+ */
+int ncurses_checksize(int height, int width) {
+  int result = TRUE;
+
+  if((COLS < width) || (LINES < height))
+    result = FALSE;
+
+  return result;
+}
