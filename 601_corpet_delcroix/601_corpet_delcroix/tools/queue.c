@@ -8,7 +8,7 @@ int create_queue(int queue_key) {
         } else {
             perror("Erreur lors de la creation de la file ");
         }
-            exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
     return queue_identifier;
 }

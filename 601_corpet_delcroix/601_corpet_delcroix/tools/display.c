@@ -21,7 +21,7 @@ void ncurses_stopper() {
 /* Activation des couleurs */
 void ncurses_colors() {
 	/* Vérification du support de la couleur */
-	if(has_colors() == FALSE) {
+	if(has_colors()==FALSE) {
 		ncurses_stopper();
 		fprintf(stderr, "Le terminal ne supporte pas les couleurs.\n");
 		exit(EXIT_FAILURE);
@@ -47,7 +47,7 @@ void ncurses_mouse() {
 		exit(EXIT_FAILURE);
 	}
 
-	if(has_mouse() != TRUE) {
+	if(has_mouse()!=TRUE) {
 		ncurses_stopper();
 		fprintf(stderr, "Aucune souris n'est détectée.\n");
 		exit(EXIT_FAILURE);
@@ -57,27 +57,27 @@ void ncurses_mouse() {
 /* Récupération de la position de la souris */
 int mouse_getpos(int *x, int *y, int *bouton) {
   MEVENT event;
-  int resultat = getmouse(&event);
+  int resultat=getmouse(&event);
  
-  if(resultat == OK) {
+  if(resultat==OK) {
     *x = event.x;
     *y = event.y;
-    if(bouton != NULL) *bouton = event.bstate;
+    if(bouton != NULL) *bouton=event.bstate;
   }
   return resultat;
 }
 
 /**
- * Check the sizes of the terminal.
+ * Check the size of the terminal.
  * @param height the height needed
  * @param width the width needed
  * @return TRUE if the sizes are OK else returns FALSE
  */
 int ncurses_checksize(int height, int width) {
-  int result = TRUE;
+  int result=TRUE;
 
   if((COLS < width) || (LINES < height))
-    result = FALSE;
+    result=FALSE;
 
   return result;
 }

@@ -22,7 +22,7 @@ int create_segment(int shared_memory_key, int shared_memory_size) {
 }
 
 void delete_segment(int shared_memory_identifier) {
-    if(shmctl(shmid, IPC_RMID, 0) == -1) {
+    if(shmctl(shared_memory_identifier, IPC_RMID, 0) == -1) {
         perror("Erreur lors de la suppression du segment de memoire partagee ");
         exit(EXIT_FAILURE);
     }

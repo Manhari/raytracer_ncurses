@@ -1,16 +1,6 @@
 #ifndef __SOCKET_H__
 #define __SOCKET_H__
 
-#include <errno.h>      /* Pour errno */
-#include <arpa/inet.h>  /* Pour IPPROTO_TCP, sockaddr_in */
-#include <stdio.h>      /* Pour printf, fprintf, perror */
-#include <stdlib.h>     /* Pour exit, EXIT_SUCCESS, EXIT_FAILURE */
-#include <sys/socket.h> /* Pour socket */
-#include <sys/time.h>   /* Pour time */
-#include <sys/types.h>  /* Pour getpid et pid_t */
-#include <string.h>     /* Pour memset */
-#include <unistd.h>     /* Pour close */
-
 #define SERVER          0
 #define CLIENT          1
 
