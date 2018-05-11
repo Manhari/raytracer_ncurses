@@ -22,7 +22,7 @@ typedef struct {
   char content[CONTENT_SIZE];
 } message_t;
 
-message_t create_message(long, int, char*);
+message_t create_message(char*, long, int);
 void read_message(message_t);
 
 #endif
